@@ -17,10 +17,10 @@ def getRss(twitterApi):
                 message = "[NEW BLOG POST] " + twitterLengthTitle + " : " + link
                 saveLink(link)
                 print("Posted:", link)
-                status = twitterApi.update_status(status=message)
+                twitterApi.update_status(message)
     else:
-        print("Nothing found in feed", url)
-        
+        print("Nothing found in feed", rssFeed)
+
 def checkLink(link):
     conn = sqlite3.connect('rssFeed.sqlite')
     conn.row_factory = sqlite3.Row
@@ -49,5 +49,5 @@ def getTwitter():
     return twitter
 
 if __name__ == '__main__':
-    twitterApi = getTwitter();
-    getRss(twitterApi);
+    twitterApi = getTwitter()
+    getRss(twitterApi)
