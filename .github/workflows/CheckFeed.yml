@@ -15,15 +15,6 @@ jobs:
           python -m pip install --upgrade pip
           pip install feedparser
           pip install tweepy
-          pip install pytest
-      - name: Test with pytest
-        run: pytest twitter-bot.py --doctest-modules --junitxml=junit/test-results.xml
-      - name: Upload pytest test results
-        uses: actions/upload-artifact@v2
-        with:
-          name: pytest-results
-          path: junit/test-results.xml
-        if: ${{ always() }}
       - name: Check RSS & Tweet
         run: python twitter-bot.py
       - name: Upload Database
