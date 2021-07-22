@@ -21,5 +21,5 @@ jobs:
         run: |
           git config --global user.name 'GithubBot'
           git remote set-url origin https://x-access-token:${{ secrets.TOKEN_GITHUB }}@github.com/${{ github.repository }}
-          git commit --allow-empty -am "Automated changes"
+          git diff-index --quiet HEAD || git commit --allow-empty -am "Automated changes"
           git push
