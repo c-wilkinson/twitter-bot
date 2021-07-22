@@ -18,7 +18,8 @@ jobs:
       - name: Check RSS & Tweet
         run: python twitter-bot.py
       - name: Upload Database
-        uses: actions/upload-artifact@v2
-        with:
-          name: rssFeed
-          path: rssFeed.sqlite
+        run: |
+          git config --global user.name 'GithubBot'
+          git remote set-url origin https://x-access-token:${{ secrets.TOKEN_GITHUB }}@github.com/${{ github.repository }}
+          git commit -am "Automated changes"
+          git push
