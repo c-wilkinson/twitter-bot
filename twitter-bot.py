@@ -1,25 +1,39 @@
 import sqlite3
 import feedparser
 import tweepy
+from selenium import webdriver
+from webdriver_manager.chrome import ChromeDriverManager
+import time
 from auth import (consumer_key, consumer_secret, access_token, access_token_secret)
 
 def getRss(twitterApi):
-    rssFeed = feedparser.parse("https://www.cadavre.co.uk/index.xml")
-    if rssFeed:
-        for item in rssFeed["items"]:
-            # Links are expected to be 100 characters or less
-            link = item["link"]
-            if checkLink(link):
-                print("Already posted:", link)
-            else:
-                blogTitle = item["title"]
-                twitterLengthTitle = (blogTitle[:160] + '...') if len(blogTitle) > 160 else blogTitle
-                message = "[NEW BLOG POST] " + twitterLengthTitle + " : " + link
-                saveLink(link)
-                print("Posted:", link)
-                twitterApi.update_status(message)
-    else:
-        print("Nothing found in feed", rssFeed)
+    rssFeeds = { "[NEW BLOG POST]" : "https://www.cadavre.co.uk/index.xml", 
+                 "[UPCOMING RACE]" : "https://rss.app/feeds/fSiPNAlJig7J4FR3.xml"}
+    for type in rssFeeds:
+        url = rssFeeds[type]
+        rssFeed = feedparser.parse(url)
+        if rssFeed:
+            for item in rssFeed["items"]:
+                url = item["link"]
+                if "cadavre.co.uk" in url:
+                    link = url.replace("cadavre.co.uk", "craigwilkinson.dev")
+                    blogTitle = item["title"]
+                else:
+                    blogTitle = item["title"].replace(" | Book @ Findarace", "")
+                    browser = webdriver.Chrome(ChromeDriverManager().install())
+                    browser.get(url)
+                    time.sleep(15)
+                    link = browser.current_url
+                if checkLink(link):
+                    print("Already posted:", link)
+                else:
+                    twitterLengthTitle = (blogTitle[:160] + '...') if len(blogTitle) > 160 else blogTitle
+                    message = type + " " + twitterLengthTitle + " : " + link
+                    saveLink(link)
+                    print("Posted:", link)
+                    # twitterApi.update_status(message)
+        else:
+            print("Nothing found in feed", rssFeed)
 
 def checkLink(link):
     conn = sqlite3.connect('rssFeed.sqlite')
