@@ -4,15 +4,14 @@ import tweepy
 from pyvirtualdisplay import Display
 from selenium import webdriver
 from webdriver_manager.chrome import ChromeDriverManager
-from selenium.webdriver.chrome.options import Options
 import time
 from auth import (consumer_key, consumer_secret, access_token, access_token_secret)
 
 def getRss(twitterApi):
     rssFeeds = { "[NEW BLOG POST]" : "https://www.cadavre.co.uk/index.xml",
                  "[UPCOMING RACE]" : "https://rss.app/feeds/fSiPNAlJig7J4FR3.xml"}
-    for type in rssFeeds:
-        url = rssFeeds[type]
+    for postType in rssFeeds:
+        url = rssFeeds[postType]
         rssFeed = feedparser.parse(url)
         if rssFeed:
             for item in rssFeed["items"]:
@@ -22,7 +21,7 @@ def getRss(twitterApi):
                     blogTitle = item["title"]
                 else:
                     blogTitle = item["title"].replace(" | Book @ Findarace", "")
-                    display = Display(visible=0, size=(800, 800))  
+                    display = Display(visible=0, size=(800, 800))
                     display.start()
                     browser = webdriver.Chrome(ChromeDriverManager().install())
                     browser.get(url)
@@ -33,7 +32,7 @@ def getRss(twitterApi):
                     print("Already posted:", link)
                 else:
                     twitterLengthTitle = (blogTitle[:160] + '...') if len(blogTitle) > 160 else blogTitle
-                    message = type + " " + twitterLengthTitle + " : " + link
+                    message = postType + " " + twitterLengthTitle + " : " + link
                     saveLink(link)
                     print("Posted:", link)
                     twitterApi.update_status(message)
@@ -52,7 +51,7 @@ def checkLink(link):
     if result is not None:
         return True
     return False
-    
+
 def saveLink(link):
     conn = sqlite3.connect('rssFeed.sqlite')
     conn.row_factory = sqlite3.Row
