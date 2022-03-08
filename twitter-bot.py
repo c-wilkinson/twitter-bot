@@ -24,7 +24,7 @@ def getRss(twitterApi):
                     blogTitle = item["title"].replace(" | Book @ Findarace", "")
                     display = Display(visible=0, size=(800, 800))  
                     display.start()
-					browser = webdriver.Chrome(ChromeDriverManager().install())
+                    browser = webdriver.Chrome(ChromeDriverManager().install())
                     browser.get(url)
                     time.sleep(15)
                     link = browser.current_url
