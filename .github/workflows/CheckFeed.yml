@@ -16,6 +16,8 @@ jobs:
           python -m pip install --upgrade pip
           pip install feedparser
           pip install tweepy
+          pip install selenium
+          pip install webdriver-manager
       - name: Check RSS & Tweet
         run: python twitter-bot.py
       - name: Upload Database
