@@ -7,7 +7,7 @@ import time
 from auth import (consumer_key, consumer_secret, access_token, access_token_secret)
 
 def getRss(twitterApi):
-    rssFeeds = { "[NEW BLOG POST]" : "https://www.cadavre.co.uk/index.xml", 
+    rssFeeds = { "[NEW BLOG POST]" : "https://www.cadavre.co.uk/index.xml",
                  "[UPCOMING RACE]" : "https://rss.app/feeds/fSiPNAlJig7J4FR3.xml"}
     for type in rssFeeds:
         url = rssFeeds[type]
@@ -31,7 +31,7 @@ def getRss(twitterApi):
                     message = type + " " + twitterLengthTitle + " : " + link
                     saveLink(link)
                     print("Posted:", link)
-                    # twitterApi.update_status(message)
+                    twitterApi.update_status(message)
         else:
             print("Nothing found in feed", rssFeed)
 
