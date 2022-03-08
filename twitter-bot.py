@@ -1,8 +1,10 @@
 import sqlite3
 import feedparser
 import tweepy
+from pyvirtualdisplay import Display
 from selenium import webdriver
 from webdriver_manager.chrome import ChromeDriverManager
+from selenium.webdriver.chrome.options import Options
 import time
 from auth import (consumer_key, consumer_secret, access_token, access_token_secret)
 
@@ -20,10 +22,13 @@ def getRss(twitterApi):
                     blogTitle = item["title"]
                 else:
                     blogTitle = item["title"].replace(" | Book @ Findarace", "")
-                    browser = webdriver.Chrome(ChromeDriverManager().install())
+                    display = Display(visible=0, size=(800, 800))  
+                    display.start()
+					browser = webdriver.Chrome(ChromeDriverManager().install())
                     browser.get(url)
                     time.sleep(15)
                     link = browser.current_url
+                    browser.quit()
                 if checkLink(link):
                     print("Already posted:", link)
                 else:

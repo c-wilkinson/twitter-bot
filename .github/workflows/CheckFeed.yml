@@ -18,6 +18,7 @@ jobs:
           pip install tweepy
           pip install selenium
           pip install webdriver-manager
+          pip install pyvirtualdisplay
       - name: Check RSS & Tweet
         run: python twitter-bot.py
       - name: Upload Database
