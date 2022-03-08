@@ -59,7 +59,7 @@ def saveLink(link):
     cur.execute("INSERT OR IGNORE INTO feed (link) values (?);", (link,))
     conn.commit()
     conn.close()
-    
+
 def getTwitter():
     authenticationToken = tweepy.OAuthHandler(consumer_key,consumer_secret)
     authenticationToken.set_access_token(access_token,access_token_secret)
