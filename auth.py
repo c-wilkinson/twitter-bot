@@ -1,4 +1,4 @@
-consumer_key        = '{{ secrets.consumer_key }}'
-consumer_secret     = '{{ secrets.consumer_secret }}'
-access_token        = '{{ secrets.access_token }}'
-access_token_secret = '{{ secrets.access_token_secret }}'
+consumer_key        = os.environ.get('API_KEY')
+consumer_secret     = os.environ.get('API_SECRET')
+access_token        = os.environ.get('ACCESS_TOKEN')
+access_token_secret = os.environ.get('ACCESS_SECRET')
