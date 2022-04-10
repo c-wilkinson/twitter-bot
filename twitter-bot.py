@@ -9,8 +9,7 @@ from auth import (consumer_key, consumer_secret, access_token, access_token_secr
 
 def getRss(twitterApi):
     rssFeeds = { "[NEW BLOG POST]" : "https://www.cadavre.co.uk/index.xml",
-                 "[UPCOMING RACE]" : "https://rss.app/feeds/fSiPNAlJig7J4FR3.xml",
-                 "[LATEST RUN]" : "https://feedmyride.net/activities/72989925",}
+                 "[LATEST STRAVA ACTIVITY]" : "https://feedmyride.net/activities/72989925",}
     for postType in rssFeeds:
         url = rssFeeds[postType]
         rssFeed = feedparser.parse(url)
@@ -20,18 +19,9 @@ def getRss(twitterApi):
                 if "cadavre.co.uk" in url:
                     link = url.replace("cadavre.co.uk", "craigwilkinson.dev")
                     blogTitle = item["title"]
-                elif postType == "[LATEST RUN]":
+                else:
                     blogTitle = item["title"]
                     link = url
-                else:
-                    blogTitle = item["title"].replace(" | Book @ Findarace", "")
-                    display = Display(visible=0, size=(800, 800))
-                    display.start()
-                    browser = webdriver.Chrome(ChromeDriverManager().install())
-                    browser.get(url)
-                    time.sleep(15)
-                    link = browser.current_url
-                    browser.quit()
                 if checkLink(link):
                     print("Already posted:", link)
                 else:
