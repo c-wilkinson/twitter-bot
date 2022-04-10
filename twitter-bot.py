@@ -1,10 +1,6 @@
 import sqlite3
 import feedparser
 import tweepy
-from pyvirtualdisplay import Display
-from selenium import webdriver
-from webdriver_manager.chrome import ChromeDriverManager
-import time
 from auth import (consumer_key, consumer_secret, access_token, access_token_secret)
 
 def getRss(twitterApi):
